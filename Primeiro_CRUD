@@ -1,0 +1,179 @@
+def CriarConta(nome, valor):
+    ListaNomes.append(nome)
+    ListaConta.append(valor)
+
+
+def DepositarConta(nome, valor):
+    for x in ListaNomes:
+        if x == nome:
+            Nconta = ListaNomes.index(nome)
+            ListaConta[Nconta] += valor
+
+
+def SacarConta(nome, valor):
+    for x in ListaNomes:
+        if x == nome:
+            Nconta = ListaNomes.index(nome)
+            if ListaConta[Nconta] < valor:
+                print('Saldo insuficiente.')
+            else:
+                ListaConta[Nconta] -= valor
+
+
+def Transferir(nome, valor):
+    for x in ListaNomes:
+        if x == nome:
+            Nconta = ListaNomes.index(nome)
+            Nconta1 = ListaNomes.index(nome)
+            if ListaConta[Nconta1] < valor:
+                print('Saldo insuficiente.')
+            else:
+                ListaConta[Nconta] -= valor
+
+
+def Transferir1(nome1, valor):
+    for x in ListaNomes:
+        if x == nome:
+            Nconta1 = ListaNomes.index(nome)
+            Nconta = ListaNomes.index(nome1)
+            if ListaConta[Nconta1] < valor:
+                print('')
+            else:
+                ListaConta[Nconta] += valor
+
+
+def RemoçaoConta(nome):
+    for x in ListaNomes:
+        if x == nome:
+            Nconta = ListaNomes.index(nome)
+            del ListaNomes[Nconta]
+            del ListaConta[Nconta]
+
+
+def AnaliseContaA(nome):
+    if(nome in ListaNomes):
+        Nconta = ListaNomes.index(nome)
+        print(f'O seu saldo é de R$ {ListaConta[Nconta]:.2f}')
+    else:
+        print('Conta não existe')
+
+
+def AnaliseContaDep(nome,valor):
+    if(nome in ListaNomes):
+        DepositarConta(nome,valor)
+    else:
+        print('Conta não existe')
+      
+
+def AnaliseContaSac(nome,valor):
+    if(nome in ListaNomes):
+        SacarConta(nome,valor)
+    else:
+        print('Conta não existe')
+
+      
+def AnaliseContaTrans(nome,valor):
+    if(nome in ListaNomes):
+        Transferir(nome,valor)
+    else:
+        print('Conta não existe')
+        return
+
+      
+def AnaliseContaTran1(nome1,valor,nome):
+    if(nome1 in ListaNomes):
+        Transferir1(nome1,valor)
+    else:
+        Nconta = ListaNomes.index(nome)
+        ListaConta[Nconta] += valor
+        print('Conta não existe')
+
+      
+def AnaliseContaRem(nome):
+    if(nome in ListaNomes):
+        RemoçaoConta(nome)
+    else:
+        print('Conta não existe')
+
+
+an = 0     
+esc = 0
+ListaNomes = []
+ListaConta = []
+
+
+while esc != 7:
+    print('-' * 30)
+    print('Olá, seja bem vindo, o que você deseja? ')
+    print('Criar uma nova conta: [1]')
+    print('Depositar dinheiro na conta: [2]')
+    print('Sacar dinheiro da conta: [3]')
+    print('Analisar o saldo: [4]')
+    print('Transferir de uma conta a outra: [5]')
+    print('Remover conta: [6]')
+    print('Nada: [7]')
+    print('-' * 30)
+    esc = input()
+    y = esc.isdigit()
+
+  
+    if y == False:
+      print('Digite um número')
+    elif y == True:
+      esc = int(esc)
+      if esc>7:
+        print('Número invalido')
+    
+
+    if esc == 1:
+        nome = str(input('Digite o seu nome: ')).upper()
+        valor = float(input('Valor a ser adicionado: '))
+        CriarConta(nome, valor)
+        l = len(ListaNomes)
+        for E in ListaNomes:
+            if E == nome:
+                an += 1
+                if an == 2:
+                    print('Já existe uma conta com esse titular.')
+                    del ListaNomes[l - 1]
+                    del ListaConta[l - 1]
+                    an = 0
+        an = 0
+
+  
+    elif esc == 2:
+        nome = str(input('Titular da conta: ')).upper()
+        valor = float(input('Valor a depositar: '))
+        AnaliseContaDep(nome,valor)
+
+
+    elif esc == 3:
+        nome = str(input('Titular da conta: ')).upper()
+        valor = float(input('Valor a sacar: '))
+        AnaliseContaSac(nome,valor)
+
+
+    elif esc == 4:
+        nome = str(input('Titular da conta: ')).upper()
+        AnaliseContaA(nome)
+
+ 
+    elif esc == 5:
+        nome = str(input('Titular da conta: ')).upper()
+        valor = float(input('Valor da transferência: '))
+        AnaliseContaTrans(nome,valor)
+        if (nome in ListaNomes):
+            nome1 = str(input('Conta para de estino: ')).upper()
+            AnaliseContaTran1(nome1,valor,nome)
+
+
+    elif esc == 6:
+        nome = str(input('Titular da conta: ')).upper()
+        AnaliseContaRem(nome)
+
+
+print('Fim de programa')
+print('-' * 30)
+print('Uma análise completa para você meu patrão: ')
+print(ListaNomes)
+print(ListaConta)
